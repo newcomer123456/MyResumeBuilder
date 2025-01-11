@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Список вакансій</h2>
+    <ul class="list-group">
+        {% for job in jobs %}
+            <li class="list-group-item">
+                {{ job.title }}
+                {{ job.name_company }}
+                {{ job.location }}
+                {{ job.salary|floatformat:2 }} грн
+                <a href="{% url 'detail-job' job.pk %}" class="btn btn-primary btn-margin">Детальніше</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="mt-4">
+        <a href="{% url 'create-job' %}" class="btn btn-success">Створити нову вакансію</a>
+    </div>
+</div>
+
+{% endblock %}

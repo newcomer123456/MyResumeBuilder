@@ -1,0 +1,66 @@
+from django.db import models
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from auto.models import CustomUser
+from django.views.generic import FormView, DetailView, View
+from auto import models
+from .forms import CustomUserDetailForm
+from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView, LogoutView
+from .forms import LoginForm, SignupForm
+from django import forms
+
+# Create your views here.
+class SignupView(View):
+    template_name = 'auto/signup.html'
+    form_class = SignupForm
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            user = form.save()
+            foto = forms.ImageField(required=False)
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('detail-user', pk=user.pk)
+
+        return render(request, self.template_name, {'form': form})
+
+class LoginView(View):
+    template_name = 'auto/login.html'
+    form_class = LoginForm
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            print(user)
+            if user is not None:
+                login(request, user)
+                return redirect('detail-user', pk=user.pk)
+            else:
+                form.add_error(None, 'Invalid username or password')
+        return render(request, self.template_name, {'form': form})
+
+class UserDetailView(DetailView):
+    model = models.CustomUser
+    template_name = "auto/detail_user.html"
+    form_class = CustomUserDetailForm
+    success_url = reverse_lazy("detail-user")

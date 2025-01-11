@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Видалення вакансії</h2>
+    <p> "Ви впевненні, що бажаєте видалити вакансію {{ job.title }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-danger">Так, видалити</button>
+        <a href="{% url 'job-list' %}" class="btn btn-secondary">Ні, повернутися до списку вакансій</a>
+    </form>
+</div>
+{% endblock %}

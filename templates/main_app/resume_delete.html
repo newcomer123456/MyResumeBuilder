@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Видалення резюме</h2>
+    <p> "Ви впевненні, що бажаєте видалити резюме {{ resume.id }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-danger">Так, видалити</button>
+        <a href="{% url 'resumes-list' %}" class="btn btn-secondary">Ні, повернутися до списку резюме</a>
+    </form>
+</div>
+{% endblock %}

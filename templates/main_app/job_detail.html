@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>{{ job.title }}</h2>
+    <h4>Автор: {{ job.user.username }}</h4>
+    <p>Зарплата: {{ job.salary|floatformat:2 }} грн</p>
+    <p>Назва компанії: {{ job.name_company }}</p>
+    <p>Опис: {{ job.description }}</p>
+    <a href="{% url 'update-job' job.pk %}" class="btn btn-primary btn-margin">Оновити</a>
+    <a href="{% url 'delete-job' job.pk %}" class="btn btn-primary btn-margin">Видалити</a>
+</div>
+{% endblock %}

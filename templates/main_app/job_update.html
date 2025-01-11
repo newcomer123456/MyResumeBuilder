@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Оновлення вакансії</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Оновити вакансію</button>
+        <a href="{% url 'job-list' %}" class="btn btn-secondary">Повернутися до списку</a>
+    </form>
+</div>
+{% endblock %}

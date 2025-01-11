@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Реєстрація</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-danger">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit">Зареєструватися</button>
+    </form>
+    <div class="signup-link">
+        <p>Вже маєте акаунт? <a href="{% url 'login' %}">Увійти</a></p>
+    </div>
+</div>
+{% endblock %}
