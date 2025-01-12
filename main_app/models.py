@@ -9,7 +9,8 @@ class Job(models.Model):
     description = models.TextField()
     name_company = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
-    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    min_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    max_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     skills = models.ManyToManyField('Skill', related_name='jobs', blank=True)
 
     def __str__(self):

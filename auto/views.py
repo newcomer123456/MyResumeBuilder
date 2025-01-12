@@ -28,7 +28,7 @@ class SignupView(View):
             foto = forms.ImageField(required=False)
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-
+            print(user.foto)
             user = authenticate(username=username, password=password)
 
             if user is not None:
@@ -64,3 +64,9 @@ class UserDetailView(DetailView):
     template_name = "auto/detail_user.html"
     form_class = CustomUserDetailForm
     success_url = reverse_lazy("detail-user")
+
+class HomepageTemplateView(TemplateView):
+    template_name = "auto/homepage.html"
+
+class CustomLogoutView(LogoutView):
+    next_page='login'

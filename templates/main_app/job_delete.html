@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Видалення вакансії</h2>
-    <p> "Ви впевненні, що бажаєте видалити вакансію {{ job.title }}"?</p>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-danger">Так, видалити</button>
-        <a href="{% url 'job-list' %}" class="btn btn-secondary">Ні, повернутися до списку вакансій</a>
-    </form>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="card-title text-danger">Видалення вакансії</h2>
+            <p class="card-text">Ви впевнені, що бажаєте видалити вакансію <strong>{{ job.title }}</strong>?</p>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger">Так, видалити</button>
+                    <a href="{% url 'jobs-list' %}" class="btn btn-secondary">Ні, повернутися до списку вакансій</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

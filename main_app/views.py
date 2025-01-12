@@ -10,7 +10,7 @@ class JobCreateView(CreateView):
     context_object_name = 'jobs'
     template_name = 'main_app/job_create.html'
     form_class = JobForm
-    success_url = reverse_lazy('job-list')
+    success_url = reverse_lazy('jobs-list')
      
 class JobListView(ListView):
     model = Job
@@ -27,13 +27,13 @@ class JobUpdateView(UpdateView):
     context_object_name = 'job'
     template_name = 'main_app/job_update.html'
     form_class = JobUpdateForm
-    success_url = reverse_lazy('job-list')
+    success_url = reverse_lazy('jobs-list')
 
 class JobDeleteView(DeleteView):
     model = Job
     context_object_name = 'job'
     template_name = 'main_app/job_delete.html'
-    success_url = reverse_lazy('job-list')
+    success_url = reverse_lazy('jobs-list')
 
 
 
@@ -50,6 +50,9 @@ class ResumeListView(ListView):
     model = Resume
     context_object_name = 'resumes'
     template_name = 'main_app/resumes_list.html'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user=self.request.user)
 
 class ResumeDetailView(DetailView):
     model = Resume

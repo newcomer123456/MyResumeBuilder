@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Оновити вакансію</button>
-        <a href="{% url 'job-list' %}" class="btn btn-secondary">Повернутися до списку</a>
+        <a href="{% url 'jobs-list' %}" class="btn btn-secondary">Повернутися до списку</a>
     </form>
 </div>
 {% endblock %}

@@ -1,29 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4 text-primary">Список резюме</h2>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-primary">Список резюме</h2>
+        <p class="text-muted">Перегляньте доступні резюме або створіть нове!</p>
+    </div>
 
     {% if resumes %}
-        <ul class="list-group">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for resume in resumes %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ resume.full_name }}</strong>  
-                        <small class="text-muted">Створено: {{ resume.created_at|date:"j F Y, о g:i a" }}</small>
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ resume.full_name }}</h5>
+                        <p class="card-text">
+                            <strong>Дата створення:</strong> {{ resume.created_at|date:"j F Y, о g:i a" }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'detail-resume' resume.pk %}" class="btn btn-outline-primary btn-sm">Детальніше</a>
+                        </div>
                     </div>
-                    <div>
-                        <a href="{% url 'detail-resume' resume.pk %}" class="btn btn-outline-primary btn-sm">Детальніше</a>
-                    </div>
-                </li>
+                </div>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <p class="text-muted">Наразі немає доступних резюме.</p>
+        <div class="alert alert-info text-center" role="alert">
+            Наразі немає доступних резюме.
+        </div>
     {% endif %}
 
-    <div class="mt-4">
-        <a href="{% url 'create-resume' %}" class="btn btn-success">Створити нове резюме</a>
+    <div class="text-center mt-5">
+        <a href="{% url 'create-resume' %}" class="btn btn-success btn-lg">
+            <i class="bi bi-plus-circle me-2"></i>Створити нове резюме
+        </a>
     </div>
 </div>
 {% endblock %}
+
