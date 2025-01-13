@@ -3,6 +3,7 @@ from .models import Job, Skill, Resume
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View 
 from .forms import JobForm, JobUpdateForm, ResumeForm, ResumeUpdateForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 class JobCreateView(CreateView):
@@ -39,14 +40,14 @@ class JobDeleteView(DeleteView):
 
 
 
-class ResumeCreateView(CreateView):
+class ResumeCreateView(LoginRequiredMixin, CreateView):
     model = Resume
     context_object_name = 'resumes'
     template_name = 'main_app/resume_create.html'
     form_class = ResumeForm
     success_url = reverse_lazy('resumes-list')
     
-class ResumeListView(ListView):
+class ResumeListView(LoginRequiredMixin, ListView):
     model = Resume
     context_object_name = 'resumes'
     template_name = 'main_app/resumes_list.html'
@@ -54,19 +55,19 @@ class ResumeListView(ListView):
         queryset = super().get_queryset()
         return queryset.filter(user=self.request.user)
 
-class ResumeDetailView(DetailView):
+class ResumeDetailView(LoginRequiredMixin, DetailView):
     model = Resume
     context_object_name = 'resume'
     template_name = 'main_app/resume_detail.html'
 
-class ResumeUpdateView(UpdateView):
+class ResumeUpdateView(LoginRequiredMixin, UpdateView):
     model = Resume
     context_object_name = 'resume'
     template_name = 'main_app/resume_update.html'
     form_class = ResumeUpdateForm
     success_url = reverse_lazy('resumes-list')
 
-class ResumeDeleteView(DeleteView):
+class ResumeDeleteView(LoginRequiredMixin, DeleteView):
     model = Resume
     context_object_name = 'resume'
     template_name = 'main_app/resume_delete.html'

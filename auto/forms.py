@@ -27,3 +27,18 @@ class CustomUserDetailForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'foto', 'email', 'phone_number', 'address', 'role']
+
+class CustomUserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['foto', 'email', 'phone_number', 'address', 'role']
+    
+    def __init__(self, *args, **kwargs):
+        super(CustomUserUpdateForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': field.label,
+            })
+            # Додаємо відступи між полями
+            field.widget.attrs['style'] = 'margin-bottom: 15px;'
