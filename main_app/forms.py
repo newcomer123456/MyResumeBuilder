@@ -46,7 +46,7 @@ class ResumeForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
         queryset=Skill.objects.all(),
         widget=forms.CheckboxSelectMultiple,  # Використовує чекбокси для вибору
-        required=False  # Робить поле необов'язковим
+        required=False
     )
 
     class Meta:
@@ -56,12 +56,12 @@ class ResumeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ResumeForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'form-control',
-                'placeholder': field.label,
-            })
-            # Додаємо відступи між полями
-            field.widget.attrs['style'] = 'margin-bottom: 15px;'
+            if field_name != 'skills':  # Не додаємо form-control до чекбоксів
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                    'placeholder': field.label,
+                    'style': 'margin-bottom: 15px;',
+                })
 
 
 class ResumeUpdateForm(forms.ModelForm):
@@ -78,12 +78,12 @@ class ResumeUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ResumeUpdateForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'form-control',
-                'placeholder': field.label,
-            })
-            # Додаємо відступи між полями
-            field.widget.attrs['style'] = 'margin-bottom: 15px;'
+            if field_name != 'skills':  # Не додаємо form-control до чекбоксів
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                    'placeholder': field.label,
+                    'style': 'margin-bottom: 15px;',
+                })
 
 
 class SkillForm(forms.ModelForm):
