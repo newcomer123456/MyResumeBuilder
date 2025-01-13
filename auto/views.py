@@ -80,6 +80,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get(self, request, pk):
         print(request.user.id, pk)
+        print(request.user.id != pk)
         if request.user.id != pk:
             return redirect('detail-user', pk=request.user.id)
         user = request.user
@@ -100,6 +101,7 @@ class UserDeleteView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         print(request.user.id, pk)
+        print(request.user.id != pk)
         if request.user.id != pk:
             return redirect('detail-user', pk=request.user.id)
 
