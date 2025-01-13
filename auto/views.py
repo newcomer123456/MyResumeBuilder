@@ -73,12 +73,14 @@ class HomepageTemplateView(TemplateView):
 class CustomLogoutView(LogoutView):
     next_page='login'
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "auto/update_user.html"
     form_class = CustomUserUpdateForm
     success_url = reverse_lazy("detail-user")
 
     def get(self, request, pk):
+        if request.user.id != pk:
+            return redirect('detail-user', pk=request.user.id)
         user = request.user
         form = self.form_class(instance = user)
         return render(request, self.template_name, {'form':form, 'user':user})
@@ -92,17 +94,19 @@ class UserUpdateView(UpdateView):
             return redirect('detail-user', pk=user.pk)
         return render(request, self.template_name, {'form': form, 'user':user})
 
-class UserDeleteView(View):
+class UserDeleteView(LoginRequiredMixin, View):
     template_name = "auto/delete_user.html"
 
     def get(self, request, pk):
+        if request.user.id != pk:
+            return redirect('detail-user', pk=request.user.id)
 
         return render(request, self.template_name, {'user': request.user})
 
     def post(self, request, pk):
-        if request.user.pk != pk:
-            return redirect('detail-user', pk=request.user.pk)
+        if request.user.id != pk:
+            return redirect('detail-user', pk=request.user.id)
 
-        user = get_object_or_404(CustomUser, pk=pk)
+        user = get_object_or_404(CustomUser, id=pk)
         user.delete()
         return redirect('homepage') 
