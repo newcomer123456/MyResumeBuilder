@@ -81,7 +81,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get(self, request, pk):
         print(request.user.id, pk)
         print(request.user.id != pk)
-        if request.user.id != pk:
+        if int(request.user.id) != int(pk):
             return redirect('detail-user', pk=request.user.id)
         user = request.user
         form = self.form_class(instance = user)
