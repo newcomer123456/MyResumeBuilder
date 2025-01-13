@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Job, Skill, Resume
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View 
-from .forms import JobForm, JobUpdateForm, ResumeForm, ResumeUpdateForm
+from .forms import JobForm, JobUpdateForm, ResumeForm, ResumeUpdateForm, SkillForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -42,7 +42,7 @@ class JobDeleteView(DeleteView):
 
 class ResumeCreateView(LoginRequiredMixin, CreateView):
     model = Resume
-    context_object_name = 'resumes'
+    context_object_name = 'resume'
     template_name = 'main_app/resume_create.html'
     form_class = ResumeForm
     success_url = reverse_lazy('resumes-list')
@@ -73,6 +73,10 @@ class ResumeDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'main_app/resume_delete.html'
     success_url = reverse_lazy('resumes-list')
 
-
-
+class SkillCreateView(CreateView):
+    model = Skill
+    context_object_name = 'skill'
+    template_name = 'main_app/skill_create.html'
+    form_class = SkillForm
+    success_url = reverse_lazy('homepage')
 

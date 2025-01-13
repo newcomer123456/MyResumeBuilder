@@ -10,6 +10,16 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'description', 'name_company', 'location', 'min_salary', 'max_salary', 'user', 'skills']
+    
+    def __init__(self, *args, **kwargs):
+        super(JobForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': field.label,
+            })
+            # Додаємо відступи між полями
+            field.widget.attrs['style'] = 'margin-bottom: 15px;'
 
 class JobUpdateForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
@@ -20,6 +30,16 @@ class JobUpdateForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'description', 'name_company', 'location', 'min_salary', 'max_salary', 'skills']
+    
+    def __init__(self, *args, **kwargs):
+        super(JobUpdateForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': field.label,
+            })
+            # Додаємо відступи між полями
+            field.widget.attrs['style'] = 'margin-bottom: 15px;'
 
 
 class ResumeForm(forms.ModelForm):
@@ -32,6 +52,16 @@ class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['full_name', 'summary', 'experience', 'education', 'user', 'skills']
+    
+    def __init__(self, *args, **kwargs):
+        super(ResumeForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': field.label,
+            })
+            # Додаємо відступи між полями
+            field.widget.attrs['style'] = 'margin-bottom: 15px;'
 
 
 class ResumeUpdateForm(forms.ModelForm):
@@ -44,3 +74,28 @@ class ResumeUpdateForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['full_name', 'summary', 'experience', 'education', 'skills']
+    
+    def __init__(self, *args, **kwargs):
+        super(ResumeUpdateForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': field.label,
+            })
+            # Додаємо відступи між полями
+            field.widget.attrs['style'] = 'margin-bottom: 15px;'
+
+
+class SkillForm(forms.ModelForm):
+    class Meta:
+        model = Skill
+        fields = ['name', 'required_level']
+
+    def __init__(self, *args, **kwargs):
+        super(SkillForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': field.label,
+            })
+            field.widget.attrs['style'] = 'margin-bottom: 15px;'

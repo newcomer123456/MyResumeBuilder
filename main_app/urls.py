@@ -12,4 +12,5 @@ urlpatterns = [
     path('resumes/<int:pk>/', views.ResumeDetailView.as_view(), name='detail-resume'),
     path('resumes/<int:pk>/update/', views.ResumeUpdateView.as_view(), name='update-resume'),
     path('resumes/<int:pk>/delete/', views.ResumeDeleteView.as_view(), name='delete-resume'),
+    path('add-skill/', views.SkillCreateView.as_view(), name='add-skill'),
 ]
