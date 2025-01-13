@@ -12,14 +12,14 @@ class JobForm(forms.ModelForm):
         fields = ['title', 'description', 'name_company', 'location', 'min_salary', 'max_salary', 'user', 'skills']
     
     def __init__(self, *args, **kwargs):
-        super(JobForm, self).__init__(*args, **kwargs)
+        super(ResumeForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'form-control',
-                'placeholder': field.label,
-            })
-            # Додаємо відступи між полями
-            field.widget.attrs['style'] = 'margin-bottom: 15px;'
+            if field_name != 'skills':  # Не додаємо form-control до чекбоксів
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                    'placeholder': field.label,
+                    'style': 'margin-bottom: 15px;',
+                })
 
 class JobUpdateForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
@@ -32,14 +32,14 @@ class JobUpdateForm(forms.ModelForm):
         fields = ['title', 'description', 'name_company', 'location', 'min_salary', 'max_salary', 'skills']
     
     def __init__(self, *args, **kwargs):
-        super(JobUpdateForm, self).__init__(*args, **kwargs)
+        super(ResumeForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs.update({
-                'class': 'form-control',
-                'placeholder': field.label,
-            })
-            # Додаємо відступи між полями
-            field.widget.attrs['style'] = 'margin-bottom: 15px;'
+            if field_name != 'skills':  # Не додаємо form-control до чекбоксів
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                    'placeholder': field.label,
+                    'style': 'margin-bottom: 15px;',
+                })
 
 
 class ResumeForm(forms.ModelForm):
