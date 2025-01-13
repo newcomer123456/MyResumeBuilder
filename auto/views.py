@@ -91,7 +91,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
         if form.is_valid():
             form.save()
-            return redirect('detail-user', pk=user.pk)
+            return redirect('detail-user', pk=user.id)
         return render(request, self.template_name, {'form': form, 'user':user})
 
 class UserDeleteView(LoginRequiredMixin, View):
@@ -107,6 +107,6 @@ class UserDeleteView(LoginRequiredMixin, View):
         if request.user.id != pk:
             return redirect('detail-user', pk=request.user.id)
 
-        user = get_object_or_404(CustomUser, id=pk)
+        user = CustomUser.objects.get(pk=request.user.id)
         user.delete()
         return redirect('homepage') 
