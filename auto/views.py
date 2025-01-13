@@ -71,15 +71,27 @@ class HomepageTemplateView(TemplateView):
 class CustomLogoutView(LogoutView):
     next_page='login'
 
-class UserUpdateView(IsOwnerOrAdminMixin, UpdateView):
-    model = CustomUser 
-    form_class = CustomUserUpdateForm
+class UserUpdateView(LoginRequiredMixin, View):
     template_name = "auto/update_user.html"
-    success_url = reverse_lazy("detail-user")
+    form_class = CustomUserUpdateForm
 
-    def get_object(self, queryset=None):
-        return self.request.user
+    def get(self, request, pk):
+        if request.user.pk != pk:
+            return redirect('detail-user', pk=request.user.pk)
+        
+        form = self.form_class(instance=request.user)
+        return render(request, self.template_name, {'form': form, 'user': request.user})
 
+    def post(self, request, pk):
+        if request.user.pk != pk:
+            return redirect('detail-user', pk=request.user.pk)
+        
+        form = self.form_class(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('detail-user', pk=request.user.pk)
+        return render(request, self.template_name, {'form': form, 'user': request.user})
+    
 class UserDeleteView(IsOwnerOrAdminMixin, DeleteView):
     model = models.CustomUser
     template_name = 'auto/delete_user.html'
