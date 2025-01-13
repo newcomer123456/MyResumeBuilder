@@ -11,14 +11,16 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             {% for resume in resumes %}
             <div class="col">
-                <div class="card h-100 shadow-sm">
+                <div class="card h-100 shadow-sm border-0">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">{{ resume.full_name }}</h5>
-                        <p class="card-text">
+                        <p class="card-text text-muted">
                             <strong>Дата створення:</strong> {{ resume.created_at|date:"j F Y, о g:i a" }}
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="{% url 'detail-resume' resume.pk %}" class="btn btn-outline-primary btn-sm">Детальніше</a>
+                            <a href="{% url 'detail-resume' resume.pk %}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-arrow-right"></i> Детальніше
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -32,10 +34,9 @@
     {% endif %}
 
     <div class="text-center mt-5">
-        <a href="{% url 'create-resume' %}" class="btn btn-success btn-lg">
-            <i class="bi bi-plus-circle me-2"></i>Створити нове резюме
+        <a href="{% url 'create-resume' %}" class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-plus-circle me-2"></i> Створити нове резюме
         </a>
     </div>
 </div>
 {% endblock %}
-
