@@ -1,5 +1,5 @@
 from django.db import models
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from auto.models import CustomUser
 from django.views.generic import FormView, DetailView, View
@@ -11,6 +11,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import LoginForm, SignupForm, CustomUserUpdateForm, CustomUserDetailForm
 from django import forms
 from .mixins import IsOwnerOrAdminMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 class SignupView(View):
@@ -90,7 +92,19 @@ class UserUpdateView(UpdateView):
             return redirect('detail-user', pk=user.pk)
         return render(request, self.template_name, {'form': form, 'user':user})
 
-class UserDeleteView(IsOwnerOrAdminMixin, DeleteView):
-    model = models.CustomUser
-    template_name = 'auto/delete_user.html'
-    success_url = reverse_lazy('signup')
+class UserDeleteView(LoginRequiredMixin, View):
+    template_name = "auto/delete_user.html"
+
+    def get(self, request, pk):
+        if request.user.pk != pk:
+            return redirect('detail-user', pk=request.user.pk)
+
+        return render(request, self.template_name, {'user': request.user})
+
+    def post(self, request, pk):
+        if request.user.pk != pk:
+            return redirect('detail-user', pk=request.user.pk)
+
+        user = get_object_or_404(CustomUser, pk=pk)
+        user.delete()
+        return redirect('homepage') 
