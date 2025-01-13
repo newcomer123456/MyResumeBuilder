@@ -92,7 +92,7 @@ class UserUpdateView(UpdateView):
             return redirect('detail-user', pk=user.pk)
         return render(request, self.template_name, {'form': form, 'user':user})
 
-class UserDeleteView(LoginRequiredMixin, View):
+class UserDeleteView(View):
     template_name = "auto/delete_user.html"
 
     def get(self, request, pk):
