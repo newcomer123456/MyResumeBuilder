@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import LoginForm, SignupForm, CustomUserUpdateForm, CustomUserDetailForm
 from django import forms
+from .mixins import IsOwnerOrAdminMixin
 
 # Create your views here.
 class SignupView(View):
@@ -70,7 +71,7 @@ class HomepageTemplateView(TemplateView):
 class CustomLogoutView(LogoutView):
     next_page='login'
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(IsOwnerOrAdminMixin, UpdateView):
     template_name = "auto/update_user.html"
     form_class = CustomUserUpdateForm
     success_url = reverse_lazy("detail-user")
@@ -89,3 +90,7 @@ class UserUpdateView(UpdateView):
             return redirect('detail-user', pk=user.pk)
         return render(request, self.template_name, {'form': form, 'user':user})
 
+class UserDeleteView(IsOwnerOrAdminMixin, DeleteView):
+    model = models.CustomUser
+    template_name = 'auto/delete_user.html'
+    success_url = reverse_lazy('signup')

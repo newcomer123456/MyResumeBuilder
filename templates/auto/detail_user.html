@@ -2,21 +2,35 @@
 
 {% block content %}
 {% load static %}
-<div class="container">
-    {% if user.foto %}
-        <p><img class="foto-circle" src="{{ user.foto.url }}" alt="User Foto"></p>
-    {% else %}
-        <p><img class="foto-circle" src="{% static 'img/cat3.png' %}" alt="Default Foto"></p>
-    {% endif %}
-
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
-    <p><strong>Address:</strong> {{ user.address }}</p>
-    <p><strong>Role:</strong> {{ user.role }}</p>
-
-    
-
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="text-center">
+                {% if user.foto %}
+                    <img class="rounded-circle img-thumbnail mb-3" src="{{ user.foto.url }}" alt="User Foto" style="width: 150px; height: 150px;">
+                {% else %}
+                    <img class="rounded-circle img-thumbnail mb-3" src="{% static 'img/cat3.png' %}" alt="Default Foto" style="width: 150px; height: 150px;">
+                {% endif %}
+            </div>
+            
+            <h3 class="text-center">{{ user.username }}</h3>
+            <hr>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                <li class="list-group-item"><strong>Phone Number:</strong> {{ user.phone_number }}</li>
+                <li class="list-group-item"><strong>Address:</strong> {{ user.address }}</li>
+                <li class="list-group-item"><strong>Role:</strong> {{ user.role }}</li>
+            </ul>
+            
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'update-user' user.pk %}" class="btn btn-primary">
+                    <i class="bi bi-pencil-square"></i> Оновити
+                </a>
+                <a href="{% url 'delete-user' user.pk %}" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Видалити
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
