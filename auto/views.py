@@ -11,7 +11,6 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import LoginForm, SignupForm, CustomUserUpdateForm, CustomUserDetailForm
 from django import forms
 from .mixins import IsOwnerOrAdminMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 class SignupView(View):
@@ -72,27 +71,25 @@ class HomepageTemplateView(TemplateView):
 class CustomLogoutView(LogoutView):
     next_page='login'
 
-class UserUpdateView(LoginRequiredMixin, View):
+class UserUpdateView(UpdateView):
     template_name = "auto/update_user.html"
     form_class = CustomUserUpdateForm
+    success_url = reverse_lazy("detail-user")
 
     def get(self, request, pk):
-        if request.user.pk != pk:
-            return redirect('detail-user', pk=request.user.pk)
-        
-        form = self.form_class(instance=request.user)
-        return render(request, self.template_name, {'form': form, 'user': request.user})
-
+        user = request.user
+        form = self.form_class(instance = user)
+        return render(request, self.template_name, {'form':form, 'user':user})
+    
     def post(self, request, pk):
-        if request.user.pk != pk:
-            return redirect('detail-user', pk=request.user.pk)
-        
-        form = self.form_class(request.POST, request.FILES, instance=request.user)
+        user = request.user
+        form = self.form_class(request.POST, request.FILES, instance=user)
+
         if form.is_valid():
             form.save()
-            return redirect('detail-user', pk=request.user.pk)
-        return render(request, self.template_name, {'form': form, 'user': request.user})
-    
+            return redirect('detail-user', pk=user.pk)
+        return render(request, self.template_name, {'form': form, 'user':user})
+
 class UserDeleteView(IsOwnerOrAdminMixin, DeleteView):
     model = models.CustomUser
     template_name = 'auto/delete_user.html'
