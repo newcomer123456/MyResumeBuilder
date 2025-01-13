@@ -71,7 +71,7 @@ class HomepageTemplateView(TemplateView):
 class CustomLogoutView(LogoutView):
     next_page='login'
 
-class UserUpdateView(IsOwnerOrAdminMixin, UpdateView):
+class UserUpdateView(IsOwnerOrAdminMixin, View):
     template_name = "auto/update_user.html"
     form_class = CustomUserUpdateForm
     success_url = reverse_lazy("detail-user")
