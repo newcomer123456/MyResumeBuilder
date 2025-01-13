@@ -1,5 +1,5 @@
 from django import forms
-from main_app.models import Job, Resume, Skill
+from main_app.models import Job, Skill
 
 class JobForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
@@ -12,7 +12,7 @@ class JobForm(forms.ModelForm):
         fields = ['title', 'description', 'name_company', 'location', 'min_salary', 'max_salary', 'user', 'skills']
     
     def __init__(self, *args, **kwargs):
-        super(ResumeForm, self).__init__(*args, **kwargs)
+        super(JobForm, self).__init__(*args, **kwargs)  # Використовуємо правильну назву класу
         for field_name, field in self.fields.items():
             if field_name != 'skills':  # Не додаємо form-control до чекбоксів
                 field.widget.attrs.update({
@@ -32,7 +32,7 @@ class JobUpdateForm(forms.ModelForm):
         fields = ['title', 'description', 'name_company', 'location', 'min_salary', 'max_salary', 'skills']
     
     def __init__(self, *args, **kwargs):
-        super(ResumeForm, self).__init__(*args, **kwargs)
+        super(JobUpdateForm, self).__init__(*args, **kwargs)  # Використовуємо правильну назву класу
         for field_name, field in self.fields.items():
             if field_name != 'skills':  # Не додаємо form-control до чекбоксів
                 field.widget.attrs.update({
