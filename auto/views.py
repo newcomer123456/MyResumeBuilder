@@ -78,7 +78,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = CustomUserUpdateForm
     success_url = reverse_lazy("detail-user")
 
-    def get(self, request, pk)
+    def get(self, request, pk):
         user = request.user
         form = self.form_class(instance = user)
         return render(request, self.template_name, {'form':form, 'user':user})
