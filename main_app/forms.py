@@ -1,5 +1,5 @@
 from django import forms
-from main_app.models import Job, Skill
+from main_app.models import Job, Skill, Resume
 
 class JobForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
