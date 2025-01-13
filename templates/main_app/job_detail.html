@@ -5,16 +5,44 @@
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <h2 class="fw-bold text-primary">{{ job.title }}</h2>
-            <h4 class="text-muted">Автор: {{ job.user.username }}</h4>
-            <ul class="list-group list-group-flush mt-3">
+            <h4 class="text-muted mb-3">Автор: {{ job.user.username }}</h4>
+            <div class="mb-4">
+                <span class="badge bg-secondary">Дата публікації: {{ job.post_date }}</span>
+                <span class="badge bg-info">Локація: {{ job.location }}</span>
+            </div>
+            <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <strong>Зарплата:</strong> {{ job.salary|floatformat:2 }} грн
+                    <strong>Зарплата:</strong>
+                    {% if job.min_salary and job.max_salary %}
+                        від {{ job.min_salary|floatformat:2 }} до {{ job.max_salary|floatformat:2 }} грн
+                    {% elif job.min_salary %}
+                        від {{ job.min_salary|floatformat:2 }} грн
+                    {% elif job.max_salary %}
+                        до {{ job.max_salary|floatformat:2 }} грн
+                    {% else %}
+                        Не вказано
+                    {% endif %}
                 </li>
                 <li class="list-group-item">
                     <strong>Назва компанії:</strong> {{ job.name_company }}
                 </li>
                 <li class="list-group-item">
-                    <strong>Опис:</strong> {{ job.description }}
+                    <strong>Опис:</strong>
+                    <p class="mt-2">{{ job.description }}</p>
+                </li>
+                <li class="list-group-item">
+                    <strong>Необхідні навички:</strong>
+                    {% if job.skills.exists %}
+                        <ul class="list-inline mt-2">
+                            {% for skill in job.skills.all %}
+                                <li class="list-inline-item">
+                                    <span class="badge bg-dark">{{ skill.name }} ({{ skill.required_level }})</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Навички не вказані.</p>
+                    {% endif %}
                 </li>
             </ul>
             <div class="mt-4 d-flex gap-3">
@@ -29,4 +57,3 @@
     </div>
 </div>
 {% endblock %}
-
