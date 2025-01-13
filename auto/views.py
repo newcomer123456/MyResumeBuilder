@@ -11,6 +11,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import LoginForm, SignupForm, CustomUserUpdateForm, CustomUserDetailForm
 from django import forms
 from .mixins import IsOwnerOrAdminMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 class SignupView(View):
