@@ -110,6 +110,6 @@ class UserDeleteView(LoginRequiredMixin, View):
         if request.user.id != pk:
             return redirect('detail-user', pk=request.user.id)
 
-        user = CustomUser.objects.get(pk=user.id)
+        user = CustomUser.objects.get(pk=request.user.id)
         user.delete()
         return redirect('homepage') 
