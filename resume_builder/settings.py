@@ -135,5 +135,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'auto.CustomUser'
 
-LOGIN_URL = '/login/'  # Змінити на ваш маршрут для входу
+LOGIN_URL = 'login'  # Змінити на ваш маршрут для входу
 LOGIN_REDIRECT_URL = '/'
