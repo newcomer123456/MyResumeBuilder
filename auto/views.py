@@ -78,9 +78,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = CustomUserUpdateForm
     success_url = reverse_lazy("detail-user")
 
-    def get(self, request, pk):
-        if request.user.id != pk:
-            return redirect('detail-user', pk=request.user.id)
+    def get(self, request, pk)
         user = request.user
         form = self.form_class(instance = user)
         return render(request, self.template_name, {'form':form, 'user':user})
@@ -98,15 +96,9 @@ class UserDeleteView(LoginRequiredMixin, View):
     template_name = "auto/delete_user.html"
 
     def get(self, request, pk):
-        if request.user.id != pk:
-            return redirect('detail-user', pk=request.user.id)
-
         return render(request, self.template_name, {'user': request.user})
 
     def post(self, request, pk):
-        if request.user.id != pk:
-            return redirect('detail-user', pk=request.user.id)
-
         user = CustomUser.objects.get(pk=request.user.id)
         user.delete()
         return redirect('homepage') 
