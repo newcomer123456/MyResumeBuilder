@@ -96,8 +96,6 @@ class UserDeleteView(View):
     template_name = "auto/delete_user.html"
 
     def get(self, request, pk):
-        if request.user.pk != pk:
-            return redirect('detail-user', pk=request.user.pk)
 
         return render(request, self.template_name, {'user': request.user})
 
